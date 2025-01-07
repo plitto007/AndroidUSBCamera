@@ -18,6 +18,7 @@ package com.jiangdg.demo
 import android.Manifest.permission.*
 import android.os.Bundle
 import android.os.PowerManager
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.PermissionChecker
@@ -32,6 +33,9 @@ import com.jiangdg.demo.databinding.ActivityMainBinding
  *
  * @author Created by jiangdg on 2021/12/27
  */
+
+private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
     private var mWakeLock: PowerManager.WakeLock? = null
     private var immersionBar: ImmersionBar? = null
@@ -49,27 +53,33 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        Log.d(TAG, "onStart: ")
         mWakeLock = Utils.wakeLock(this)
     }
 
     override fun onStop() {
         super.onStop()
+        Log.d(TAG, "onStop: ")
         mWakeLock?.apply {
             Utils.wakeUnLock(this)
         }
     }
 
     private fun replaceDemoFragment(fragment: Fragment) {
+        Log.d(TAG, "replaceDemoFragment: ")
         val hasCameraPermission = PermissionChecker.checkSelfPermission(this, CAMERA)
         val hasStoragePermission =
             PermissionChecker.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
-        if (hasCameraPermission != PermissionChecker.PERMISSION_GRANTED || hasStoragePermission != PermissionChecker.PERMISSION_GRANTED) {
+//        if (hasCameraPermission != PermissionChecker.PERMISSION_GRANTED || hasStoragePermission != PermissionChecker.PERMISSION_GRANTED) {
+            if (hasCameraPermission != PermissionChecker.PERMISSION_GRANTED ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA)) {
                 ToastUtils.show(R.string.permission_tip)
             }
+            val permissions = arrayOf(CAMERA, RECORD_AUDIO)
+            Log.d(TAG, "Request permission: ${permissions.contentToString()}")
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(CAMERA, WRITE_EXTERNAL_STORAGE, RECORD_AUDIO),
+                permissions,
                 REQUEST_CAMERA
             )
             return
@@ -85,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d(TAG, "onRequestPermissionsResult: $requestCode")
         when (requestCode) {
             REQUEST_CAMERA -> {
                 val hasCameraPermission = PermissionChecker.checkSelfPermission(this, CAMERA)
@@ -96,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                 replaceDemoFragment(DemoFragment())
 //                replaceDemoFragment(GlSurfaceFragment())
             }
+
             REQUEST_STORAGE -> {
                 val hasCameraPermission =
                     PermissionChecker.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE)
@@ -105,14 +117,16 @@ class MainActivity : AppCompatActivity() {
                 }
                 // todo
             }
+
             else -> {
             }
         }
     }
 
     override fun onDestroy() {
+        Log.d(TAG, "onDestroy: ")
         super.onDestroy()
-        immersionBar= null
+        immersionBar = null
     }
 
     private fun setStatusBar() {

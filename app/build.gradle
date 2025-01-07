@@ -4,9 +4,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion rootProject.ext.versionCompiler
+    namespace 'com.jiangdg.demo'
+    buildToolsVersion ='34.0.0'
+    compileSdk 34
     defaultConfig {
-        applicationId "com.jiangdg.ausbc"
+        applicationId "com.jiangdg.demo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.versionTarget
         versionCode rootProject.ext.versionCode
@@ -14,8 +16,8 @@ android {
 
         multiDexEnabled true
 
-        ndk{
-            abiFilters 'armeabi-v7a','arm64-v8a'
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
     }
     buildTypes {
@@ -59,14 +61,18 @@ dependencies {
     implementation "com.tencent.bugly:crashreport:$bugly_version"
     implementation "com.tencent.bugly:nativecrashreport:$bugly_native_version"
 
-    api 'com.gyf.immersionbar:immersionbar:3.0.0'
-    implementation "com.github.bumptech.glide:glide:4.10.0"
-    implementation "com.github.bumptech.glide:okhttp3-integration:4.10.0"
-    implementation "com.zlc.glide:webpdecoder:1.6.4.9.0"
+//    api 'com.gyf.immersionbar:immersionbar:3.0.0'\
+    api("com.geyifeng.immersionbar:immersionbar:3.2.2")
+    implementation "com.github.bumptech.glide:glide:4.16.0"
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.16.0"
+    implementation "com.github.zjupure:webpdecoder:2.6.4.16.0"
     implementation 'com.tencent:mmkv:1.2.12'
 
     // For debug online
     implementation project(':libausbc')
+
+    def multidex_version = "2.0.1"
+    api "androidx.multidex:multidex:$multidex_version"
 
     // demo
 //    implementation 'com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.3.3'

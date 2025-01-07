@@ -47,7 +47,8 @@ LOCAL_CFLAGS += -O3 -fstrict-aliasing -fprefetch-loop-arrays
 LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -ldl
 LOCAL_LDLIBS += -llog
 LOCAL_LDLIBS += -landroid
-
+LOCAL_CFLAGS += -U_FORTIFY_SOURCE
+LOCAL_CFLAGS += -latomic
 LOCAL_SHARED_LIBRARIES += usb100 uvc
 
 LOCAL_ARM_MODE := arm

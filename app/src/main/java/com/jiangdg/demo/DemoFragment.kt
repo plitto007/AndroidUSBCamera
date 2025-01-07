@@ -29,6 +29,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -151,6 +152,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
 
     override fun initView() {
         super.initView()
+        Log.d(TAG, "initView: ")
         mViewBinding.lensFacingBtn1.setOnClickListener(this)
         mViewBinding.effectsBtn.setOnClickListener(this)
         mViewBinding.cameraTypeBtn.setOnClickListener(this)
@@ -449,7 +451,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
 //            return
 //        }
         clickAnimation(v!!, object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 when (v) {
                     mViewBinding.lensFacingBtn1 -> {
                         getCurrentCamera()?.let { strategy ->
@@ -734,7 +736,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
             )
             translationX.duration = 600
             translationX.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                     super.onAnimationStart(animation)
                     mViewBinding.controlPanelLayout.visibility = View.VISIBLE
                 }
@@ -749,7 +751,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
             )
             translationX.duration = 600
             translationX.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
                     mViewBinding.controlPanelLayout.visibility = View.INVISIBLE
                 }

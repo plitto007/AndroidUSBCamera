@@ -4,9 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion rootProject.ext.versionCompiler
+    namespace 'com.jiangdg.ausbc'
+    ndkVersion "21.0.6113669"
 
     defaultConfig {
+        buildToolsVersion ='34.0.0'
+        compileSdk 34
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.versionTarget
         versionCode rootProject.ext.versionCode
